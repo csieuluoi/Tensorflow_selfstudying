@@ -137,7 +137,7 @@ for epoch in range(EPOCHS):
 
     discriminator_metric = 0.5 * np.add(discriminator_metric_real,   discriminator_metric_generated)
 
-    generator_metric = combined.train_on_batch(noisse, y_real)
+    generator_metric = combined.train_on_batch(noise, y_real)
     if epoch % SAVE_FREQ == 0:
         save_images(cnt, fixed_noise)
         cnt += 1
