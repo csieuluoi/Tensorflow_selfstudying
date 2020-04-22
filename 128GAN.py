@@ -18,16 +18,16 @@ SAVE_FREQ = 100
 NOISE_SIZE = 100
 # Configuration
 EPOCHS = 10000 # number of iterations
-BATCH_SIZE = 32
+BATCH_SIZE = 20
 GENERATE_RES = 3
 IMAGE_SIZE = 128 # rows/cols
 IMAGE_CHANNELS = 3
 
 training_data = np.load('30_drop_7_cluster_images.npy')
 
-training_data = np.reshape(
-training_data, (-1, IMAGE_SIZE, IMAGE_SIZE, IMAGE_CHANNELS))
+training_data = np.reshape(training_data, (-1, IMAGE_SIZE, IMAGE_SIZE, IMAGE_CHANNELS))
 training_data = training_data / 127.5 - 1
+training_data = training_data.astype(np.float32)
 
 def build_discriminator(image_shape):
     model = Sequential()
