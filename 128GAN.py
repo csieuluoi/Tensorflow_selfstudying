@@ -1,8 +1,8 @@
-from keras.layers import Input, Reshape, Dropout, Dense, Flatten, BatchNormalization, Activation, ZeroPadding2D
-from keras.layers.advanced_activations import LeakyReLU
-from keras.layers.convolutional import UpSampling2D, Conv2D
-from keras.models import Sequential, Model, load_model
-from keras.optimizers import Adam
+from tensorflow.keras.layers import Input, Reshape, Dropout, Dense, Flatten, BatchNormalization, Activation, ZeroPadding2D
+from tensorflow.keras.layers import LeakyReLU
+from tensorflow.keras.layers import UpSampling2D, Conv2D
+from tensorflow.keras.models import Sequential, Model, load_model
+from tensorflow.keras.optimizers import Adam
 import numpy as np
 from PIL import Image
 import os
@@ -27,8 +27,7 @@ training_data = np.load('30_drop_7_cluster_images.npy')
 
 training_data = np.reshape(
 training_data, (-1, IMAGE_SIZE, IMAGE_SIZE, IMAGE_CHANNELS))
-training_data = training_data / 127.5–1
-
+training_data = training_data / 127.5 - 1
 
 def build_discriminator(image_shape):
     model = Sequential()
@@ -67,19 +66,19 @@ def build_generator(noise_size, channels):
     model.add(UpSampling2D())
     model.add(Conv2D(256, kernel_size=3, padding="same"))
     model.add(BatchNormalization(momentum=0.8))
-    model.add(Activation(“relu"))
+    model.add(Activation("relu"))
     model.add(UpSampling2D())
     model.add(Conv2D(256, kernel_size=3, padding="same"))
     model.add(BatchNormalization(momentum=0.8))
-    model.add(Activation(“relu"))
+    model.add(Activation("relu"))
     for i in range(GENERATE_RES):
          model.add(UpSampling2D())
          model.add(Conv2D(256, kernel_size=3, padding="same"))
          model.add(BatchNormalization(momentum=0.8))
-         model.add(Activation(“relu"))
+         model.add(Activation("relu"))
     model.summary()
     model.add(Conv2D(channels, kernel_size=3, padding="same"))
-    model.add(Activation(“tanh"))
+    model.add(Activation("tanh"))
     input = Input(shape=(noise_size,))
     generated_image = model(input)
 
@@ -113,7 +112,7 @@ image_shape = (IMAGE_SIZE, IMAGE_SIZE, IMAGE_CHANNELS)
 optimizer = Adam(1.5e-4, 0.5)
 discriminator = build_discriminator(image_shape)
 discriminator.compile(loss="binary_crossentropy",
-optimizer=optimizer, metrics=[“accuracy"])
+optimizer=optimizer, metrics=["accuracy"])
 generator = build_generator(NOISE_SIZE, IMAGE_CHANNELS)
 random_input = Input(shape=(NOISE_SIZE,))
 generated_image = generator(random_input)
@@ -121,13 +120,13 @@ discriminator.trainable = False
 validity = discriminator(generated_image)
 combined = Model(random_input, validity)
 combined.compile(loss="binary_crossentropy",
-optimizer=optimizer, metrics=[“accuracy"])
+optimizer=optimizer, metrics=["accuracy"])
 y_real = np.ones((BATCH_SIZE, 1))
 y_fake = np.zeros((BATCH_SIZE, 1))
 fixed_noise = np.random.normal(0, 1, (PREVIEW_ROWS * PREVIEW_COLS, NOISE_SIZE))
 cnt = 1
 for epoch in range(EPOCHS):
-    break
+
     idx = np.random.randint(0, training_data.shape[0], BATCH_SIZE)
     x_real = training_data[idx]
 
