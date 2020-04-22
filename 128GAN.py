@@ -127,6 +127,7 @@ y_fake = np.zeros((BATCH_SIZE, 1))
 fixed_noise = np.random.normal(0, 1, (PREVIEW_ROWS * PREVIEW_COLS, NOISE_SIZE))
 cnt = 1
 for epoch in range(EPOCHS):
+    break
     idx = np.random.randint(0, training_data.shape[0], BATCH_SIZE)
     x_real = training_data[idx]
 
